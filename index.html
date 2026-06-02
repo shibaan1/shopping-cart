@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header id="header">
+        <div id="logo"></div>
+       <input type="text" placeholder="search products...">
+        <button id="cart-btn">
+            🛒
+            <span class="cart-count">
+                0
+        </span>
+        </button>
+    </header>
+
+    <main id="main">
+        <section id="filter">
+            <button class="filter-btn" data-category="clothing">clothing</button>
+            <button class="filter-btn" data-category="electronics">electronics</button>
+            <button class="filter-btn" data-category="books">books</button>
+            <button class="filter-btn" data-category="furniture">furniture</button>
+            <button class="filter-btn" data-category="kitchenware">kitchenware</button>
+            <button class="filter-btn" data-category="tools">tools</button>
+        </section>
+
+        <div class="product-grid" id="products-container">
+           
+        </div>
+    </main>
+
+    <section id="cart-modal">
+        <header>
+            <button id="close">close</button>
+
+        </header>
+
+        <ul id="cart-item-list"></ul>
+        <p id="empty-cart-msg">your cart is empty</p>
+        <input type="text" placeholder="discount code">
+
+        <div id="total"></div>
+        <button id="checkout">checkout</button>
+
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
