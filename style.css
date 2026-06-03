@@ -82,3 +82,30 @@ input[type='text']::placeholder {
     font-size: smaller;
     font-weight: bold;
 }
+
+#filter {
+    display: flex;
+    gap: 10px;
+    padding: 5px 5px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border);
+    padding: 5px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    border: 2px solid var(--accent);
+}
+
+.filter-btn.active {
+    background-color: var(--accent);
+    color: #ffffff;
+    border: 2px solid var(--accent);
+}
