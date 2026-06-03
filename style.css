@@ -173,3 +173,89 @@ input[type='text']::placeholder {
         grid-template-columns: 1fr;
     }
 }
+
+#cart-modal {
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+}
+
+#cart-modal.show {
+
+    display: flex;
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: 400px;
+    max-height: 600px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+#close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+#cart-item-list {
+    list-style: none;
+    margin: 10px 0;
+}
+
+#empty-cart-msg {
+    display: none;
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 15px;
+}
+
+#checkout {
+    background-color: var(--accent);
+    padding: 10px 15px;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.5s ease;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#checkout:hover {
+    background-color: #ff5252;
+}
+
+input[type='text'][placeholder='discount code'] {
+
+    width: 100%;
+    padding: 15px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    margin: 10px 0;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+input[type='text'][placeholder='discount code']:focus {
+    border: 2px solid var(--accent);
+    outline: none;
+}
