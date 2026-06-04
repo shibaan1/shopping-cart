@@ -213,6 +213,7 @@ input[type='text']::placeholder {
     font-size: 20px;
     cursor: pointer;
     color: var(--text-secondary);
+
 }
 
 #cart-item-list {
