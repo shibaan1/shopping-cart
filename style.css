@@ -221,6 +221,16 @@ input[type='text']::placeholder {
     margin: 10px 0;
 }
 
+/* #cart-item-list li {
+    display: block;
+    list-style: none;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid var(--border);
+    background-color: #f9f9f9;
+    border-radius: 5px;
+} */
+
 #empty-cart-msg {
     display: none;
     text-align: center;

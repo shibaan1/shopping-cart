@@ -2,6 +2,7 @@ const cartbtn = document.getElementById('cart-btn')
 const cartmodal = document.getElementById('cart-modal')
 const closebtn = document.getElementById('close')
 const productcontainer = document.getElementById('products-container')
+const cartitemlist = document.getElementById('cart-item-list')
 const cartcount = document.querySelector('.cart-count')
 let allproducts = null
 let cart = []
@@ -10,6 +11,7 @@ let cart = []
 cartbtn.addEventListener('click', () => {
 
     cartmodal.classList.add('show')
+    displaycartitems()
 })
 
 closebtn.addEventListener('click', () => {
@@ -85,7 +87,7 @@ const addtocart = (product) => {
     }
 
     updatecount()
-
+    displaycartitems()
 }
 
 const updatecount = () => {
@@ -96,6 +98,63 @@ const updatecount = () => {
     }, 0)
 
     cartcount.textContent = total
+
+}
+
+const displaycartitems = () => {
+
+    console.log('displaycartitems called, cart:', cart)
+
+    cartitemlist.innerHTML = ''
+
+    cart.forEach(item => {
+
+        const li = document.createElement('li')
+        const titlespan = document.createElement('span')
+        const pricespan = document.createElement('span')
+        const quantityspan = document.createElement('span')
+        const incbtn = document.createElement('button')
+        const decbtn = document.createElement('button')
+        const removebtn = document.createElement('button')
+
+        titlespan.textContent = item.title
+        pricespan.textContent = item.price
+        quantityspan.textContent = item.quantity
+        incbtn.textContent = '+'
+        decbtn.textContent = '-'
+        removebtn.textContent = 'REMOVE'
+
+        li.appendChild(titlespan)
+        li.appendChild(pricespan)
+        li.appendChild(quantityspan)
+        li.appendChild(incbtn)
+        li.appendChild(decbtn)
+        li.appendChild(removebtn)
+        cartitemlist.appendChild(li)
+
+        incbtn.addEventListener('click', () => {
+            item.quantity += 1
+            displaycartitems()
+            updatecount()
+        })
+
+        decbtn.addEventListener('click', () => {
+            item.quantity -= 1
+            displaycartitems()
+            updatecount()
+        })
+
+        removebtn.addEventListener('click', () => {
+
+            const index = cart.findIndex(cartitem => cartitem.id === item.id)
+
+            cart.splice(index, 1)
+            displaycartitems()
+            updatecount()
+
+        })
+
+    })
 
 }
 
