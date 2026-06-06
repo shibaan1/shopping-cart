@@ -2,7 +2,9 @@ const cartbtn = document.getElementById('cart-btn')
 const cartmodal = document.getElementById('cart-modal')
 const closebtn = document.getElementById('close')
 const productcontainer = document.getElementById('products-container')
+const cartcount = document.querySelector('.cart-count')
 let allproducts = null
+let cart = []
 
 
 cartbtn.addEventListener('click', () => {
@@ -48,6 +50,10 @@ const displayproducts = () => {
         btn.textContent = 'add to cart'
         btn.classList.add('add-to-cart')
 
+        btn.addEventListener('click', () => {
+            addtocart(item)
+        })
+
         newdiv.appendChild(img)
         newdiv.appendChild(title)
         newdiv.appendChild(price)
@@ -56,6 +62,40 @@ const displayproducts = () => {
         productcontainer.appendChild(newdiv)
 
     });
+
+}
+
+const addtocart = (product) => {
+
+    const exsistingitem = cart.find(item => item.id === product.id)
+
+    if (exsistingitem) {
+        exsistingitem.quantity += 1
+    }
+
+    else {
+        const newcartitem = {
+
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            quantity: 1
+        }
+        cart.push(newcartitem)
+    }
+
+    updatecount()
+
+}
+
+const updatecount = () => {
+
+    const total = cart.reduce((acc, item) => {
+
+        return acc + item.quantity
+    }, 0)
+
+    cartcount.textContent = total
 
 }
 
