@@ -6,6 +6,7 @@ const cartitemlist = document.getElementById('cart-item-list')
 const total = document.getElementById('total')
 const search = document.getElementById('search-input')
 const cartcount = document.querySelector('.cart-count')
+const filter = document.getElementById('filter')
 
 let allproducts = null
 let cart = []
@@ -179,7 +180,7 @@ const calculatetotal = () => {
 
 }
 
-const searchproduct = (searchterm) =>{
+const searchproduct = (searchterm) => {
 
     const searched = allproducts.filter(item => item.title.toLowerCase().includes(searchterm.toLowerCase()))
 
@@ -187,7 +188,7 @@ const searchproduct = (searchterm) =>{
 
     searched.forEach(item => {
 
-        const newdiv = document.createElement('div')  
+        const newdiv = document.createElement('div')
         newdiv.classList.add('product-card')
 
         const img = document.createElement('img')
@@ -201,7 +202,7 @@ const searchproduct = (searchterm) =>{
         btn.textContent = 'add-to-cart'
         btn.classList.add('add-to-cart')
 
-        btn.addEventListener('click' , () => {
+        btn.addEventListener('click', () => {
             addtocart(item)
         })
 
@@ -215,15 +216,77 @@ const searchproduct = (searchterm) =>{
     })
 }
 
-search.addEventListener('input' , ()=>{
+search.addEventListener('input', () => {
     const searchterm = search.value
 
-    if(searchterm === ''){
+    if (searchterm === '') {
         productcontainer.innerHTML = ''
         displayproducts()
     }
-    else{
+    else {
         searchproduct(searchterm)
+    }
+})
+
+const filterbycategory = (category) => {
+
+    if (category === 'all') {
+
+
+        productcontainer.innerHTML = ''
+        displayproducts()
+    }
+
+    else {
+
+        const cat = allproducts.filter(item => item.category === category)
+
+        productcontainer.innerHTML = ''
+
+        cat.forEach(item => {
+
+            const newdiv = document.createElement('div')
+            newdiv.classList.add('product-card')
+
+            const img = document.createElement('img')
+            const title = document.createElement('h3')
+            const price = document.createElement('p')
+            const btn = document.createElement('button')
+
+            img.src = item.image
+            title.textContent = item.title
+            price.textContent = item.price
+            btn.textContent = 'add to cart'
+            btn.classList.add('add-to-cart')
+
+            btn.addEventListener('click', () => {
+                addtocart(item)
+            })
+
+            newdiv.appendChild(img)
+            newdiv.appendChild(title)
+            newdiv.appendChild(price)
+            newdiv.appendChild(btn)
+
+            productcontainer.appendChild(newdiv)
+
+        })
+    }
+}
+
+filter.addEventListener('click', (e) => {
+
+    if (e.target.classList.contains('filter-btn')) {
+
+        const category = e.target.getAttribute('data-category')
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+
+            btn.classList.remove('active')
+        })
+        e.target.classList.add('active')
+
+        filterbycategory(category)
     }
 })
 fetchproducts()
