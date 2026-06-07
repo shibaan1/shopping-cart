@@ -3,6 +3,7 @@ const cartmodal = document.getElementById('cart-modal')
 const closebtn = document.getElementById('close')
 const productcontainer = document.getElementById('products-container')
 const cartitemlist = document.getElementById('cart-item-list')
+const total = document.getElementById('total')
 const cartcount = document.querySelector('.cart-count')
 let allproducts = null
 let cart = []
@@ -88,6 +89,7 @@ const addtocart = (product) => {
 
     updatecount()
     displaycartitems()
+    calculatetotal()
 }
 
 const updatecount = () => {
@@ -98,12 +100,9 @@ const updatecount = () => {
     }, 0)
 
     cartcount.textContent = total
-
 }
 
 const displaycartitems = () => {
-
-    console.log('displaycartitems called, cart:', cart)
 
     cartitemlist.innerHTML = ''
 
@@ -139,23 +138,42 @@ const displaycartitems = () => {
         })
 
         decbtn.addEventListener('click', () => {
-            item.quantity -= 1
+
+            if (item.quantity > 1) {
+                item.quantity -= 1
+            }
+
+            else {
+                const index = cart.findIndex(cartitem => cartitem.id === item.id)
+                cart.splice(index, 1)
+            }
             displaycartitems()
             updatecount()
+
         })
 
         removebtn.addEventListener('click', () => {
 
             const index = cart.findIndex(cartitem => cartitem.id === item.id)
-
             cart.splice(index, 1)
             displaycartitems()
             updatecount()
 
         })
-
     })
-
+    calculatetotal()
 }
 
+const calculatetotal = () => {
+
+    const totalprice = cart.reduce((acc, item) => {
+
+        const pricetotal = item.quantity * item.price
+        return acc + pricetotal
+
+    }, 0)
+
+    total.textContent = `the total price of the cart is: $${totalprice.toFixed(2)}`
+
+}
 fetchproducts()
