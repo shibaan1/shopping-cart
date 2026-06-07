@@ -4,7 +4,9 @@ const closebtn = document.getElementById('close')
 const productcontainer = document.getElementById('products-container')
 const cartitemlist = document.getElementById('cart-item-list')
 const total = document.getElementById('total')
+const search = document.getElementById('search-input')
 const cartcount = document.querySelector('.cart-count')
+
 let allproducts = null
 let cart = []
 
@@ -176,4 +178,52 @@ const calculatetotal = () => {
     total.textContent = `the total price of the cart is: $${totalprice.toFixed(2)}`
 
 }
+
+const searchproduct = (searchterm) =>{
+
+    const searched = allproducts.filter(item => item.title.toLowerCase().includes(searchterm.toLowerCase()))
+
+    productcontainer.innerHTML = ''
+
+    searched.forEach(item => {
+
+        const newdiv = document.createElement('div')  
+        newdiv.classList.add('product-card')
+
+        const img = document.createElement('img')
+        const title = document.createElement('h3')
+        const price = document.createElement('p')
+        const btn = document.createElement('button')
+
+        img.src = item.image
+        title.textContent = item.title
+        price.textContent = item.price
+        btn.textContent = 'add-to-cart'
+        btn.classList.add('add-to-cart')
+
+        btn.addEventListener('click' , () => {
+            addtocart(item)
+        })
+
+        newdiv.appendChild(img)
+        newdiv.appendChild(title)
+        newdiv.appendChild(price)
+        newdiv.appendChild(btn)
+
+        productcontainer.appendChild(newdiv)
+
+    })
+}
+
+search.addEventListener('input' , ()=>{
+    const searchterm = search.value
+
+    if(searchterm === ''){
+        productcontainer.innerHTML = ''
+        displayproducts()
+    }
+    else{
+        searchproduct(searchterm)
+    }
+})
 fetchproducts()
