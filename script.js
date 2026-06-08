@@ -7,10 +7,15 @@ const total = document.getElementById('total')
 const search = document.getElementById('search-input')
 const cartcount = document.querySelector('.cart-count')
 const filter = document.getElementById('filter')
+const discountinp = document.querySelector('input[placeholder = "discount code"')
 
 let allproducts = null
 let cart = []
-
+const discount = {
+    'SAVE10': 10,
+    'SAVE20': 20,
+    'SAVE50': 50
+}
 
 cartbtn.addEventListener('click', () => {
 
@@ -66,9 +71,7 @@ const displayproducts = () => {
         newdiv.appendChild(btn)
 
         productcontainer.appendChild(newdiv)
-
-    });
-
+    })
 }
 
 const addtocart = (product) => {
@@ -120,7 +123,7 @@ const displaycartitems = () => {
         const removebtn = document.createElement('button')
 
         titlespan.textContent = item.title
-        pricespan.textContent = item.price
+        pricespan.textContent = `$${item.price}`
         quantityspan.textContent = item.quantity
         incbtn.textContent = '+'
         decbtn.textContent = '-'
@@ -177,7 +180,6 @@ const calculatetotal = () => {
     }, 0)
 
     total.textContent = `the total price of the cart is: $${totalprice.toFixed(2)}`
-
 }
 
 const searchproduct = (searchterm) => {
@@ -198,7 +200,7 @@ const searchproduct = (searchterm) => {
 
         img.src = item.image
         title.textContent = item.title
-        price.textContent = item.price
+        price.textContent = `$${item.price}`
         btn.textContent = 'add-to-cart'
         btn.classList.add('add-to-cart')
 
@@ -232,7 +234,6 @@ const filterbycategory = (category) => {
 
     if (category === 'all') {
 
-
         productcontainer.innerHTML = ''
         displayproducts()
     }
@@ -255,7 +256,7 @@ const filterbycategory = (category) => {
 
             img.src = item.image
             title.textContent = item.title
-            price.textContent = item.price
+            price.textContent = `$${item.price}`
             btn.textContent = 'add to cart'
             btn.classList.add('add-to-cart')
 
@@ -284,9 +285,39 @@ filter.addEventListener('click', (e) => {
 
             btn.classList.remove('active')
         })
-        e.target.classList.add('active')
 
+        e.target.classList.add('active')
         filterbycategory(category)
+    }
+})
+
+const applydiscount = (code) => {
+
+    if (discount.hasOwnProperty(code)) {
+        const discpercent = discount[code]
+
+        const totalprice = cart.reduce((acc, item) => {
+            const totalprice = item.quantity * item.price
+            return acc + totalprice
+        }, 0)
+
+        const discountamount = totalprice * (discpercent / 100)
+        const finalprice = totalprice - discountamount
+        total.textContent = `the total price of the cart is: $${totalprice.toFixed(2)} → Final: $${finalprice.toFixed(2)} (${code}: ${discount[code]}% off)`
+        alert(`discount code applied !. you saved $${discountamount.toFixed(2)}`)
+
+    }
+    else {
+        alert(`INVALID CODE`)
+    }
+}
+
+discountinp.addEventListener('keypress', (e) => {
+
+    if (e.key === 'Enter') {
+
+        const code = discountinp.value.toUpperCase()
+        applydiscount(code)
     }
 })
 fetchproducts()
