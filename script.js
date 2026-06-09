@@ -7,7 +7,7 @@ const total = document.getElementById('total')
 const search = document.getElementById('search-input')
 const cartcount = document.querySelector('.cart-count')
 const filter = document.getElementById('filter')
-const discountinp = document.querySelector('input[placeholder = "discount code"')
+const discountinp = document.querySelector('input[placeholder = "discount code"]')
 
 let allproducts = null
 let cart = []
@@ -17,16 +17,22 @@ const discount = {
     'SAVE50': 50
 }
 
-cartbtn.addEventListener('click', () => {
+const loadcart = () => {
 
-    cartmodal.classList.add('show')
-    displaycartitems()
-})
+    const storage = localStorage.getItem('cart')
 
-closebtn.addEventListener('click', () => {
+    if (storage) {
+        cart = JSON.parse(storage)
+        updatecount()
+        displaycartitems()
+    }
+}
 
-    cartmodal.classList.remove('show')
-})
+const savecart = () => {
+
+    const item = JSON.stringify(cart)
+    localStorage.setItem('cart', item)
+}
 
 const fetchproducts = async () => {
 
@@ -96,6 +102,7 @@ const addtocart = (product) => {
     updatecount()
     displaycartitems()
     calculatetotal()
+    savecart()
 }
 
 const updatecount = () => {
@@ -141,6 +148,7 @@ const displaycartitems = () => {
             item.quantity += 1
             displaycartitems()
             updatecount()
+            savecart()
         })
 
         decbtn.addEventListener('click', () => {
@@ -155,6 +163,7 @@ const displaycartitems = () => {
             }
             displaycartitems()
             updatecount()
+            savecart()
 
         })
 
@@ -164,7 +173,7 @@ const displaycartitems = () => {
             cart.splice(index, 1)
             displaycartitems()
             updatecount()
-
+            savecart()
         })
     })
     calculatetotal()
@@ -218,18 +227,6 @@ const searchproduct = (searchterm) => {
     })
 }
 
-search.addEventListener('input', () => {
-    const searchterm = search.value
-
-    if (searchterm === '') {
-        productcontainer.innerHTML = ''
-        displayproducts()
-    }
-    else {
-        searchproduct(searchterm)
-    }
-})
-
 const filterbycategory = (category) => {
 
     if (category === 'all') {
@@ -275,6 +272,50 @@ const filterbycategory = (category) => {
     }
 }
 
+const applydiscount = (code) => {
+
+    if (discount.hasOwnProperty(code)) {
+        const discpercent = discount[code]
+
+        const totalprice = cart.reduce((acc, item) => {
+            const totalprice = item.quantity * item.price
+            return acc + totalprice
+        }, 0)
+
+        const discountamount = totalprice * (discpercent / 100)
+        const finalprice = totalprice - discountamount
+        total.textContent = `the total price of the cart is: $${totalprice.toFixed(2)} → Final: $${finalprice.toFixed(2)} (${code}: ${discount[code]}% off)`
+        alert(`discount code applied! you saved $${discountamount.toFixed(2)}`)
+
+    }
+    else {
+        alert(`INVALID CODE`)
+    }
+}
+
+cartbtn.addEventListener('click', () => {
+
+    cartmodal.classList.add('show')
+    displaycartitems()
+})
+
+closebtn.addEventListener('click', () => {
+
+    cartmodal.classList.remove('show')
+})
+
+search.addEventListener('input', () => {
+    const searchterm = search.value
+
+    if (searchterm === '') {
+        productcontainer.innerHTML = ''
+        displayproducts()
+    }
+    else {
+        searchproduct(searchterm)
+    }
+})
+
 filter.addEventListener('click', (e) => {
 
     if (e.target.classList.contains('filter-btn')) {
@@ -291,33 +332,15 @@ filter.addEventListener('click', (e) => {
     }
 })
 
-const applydiscount = (code) => {
-
-    if (discount.hasOwnProperty(code)) {
-        const discpercent = discount[code]
-
-        const totalprice = cart.reduce((acc, item) => {
-            const totalprice = item.quantity * item.price
-            return acc + totalprice
-        }, 0)
-
-        const discountamount = totalprice * (discpercent / 100)
-        const finalprice = totalprice - discountamount
-        total.textContent = `the total price of the cart is: $${totalprice.toFixed(2)} → Final: $${finalprice.toFixed(2)} (${code}: ${discount[code]}% off)`
-        alert(`discount code applied !. you saved $${discountamount.toFixed(2)}`)
-
-    }
-    else {
-        alert(`INVALID CODE`)
-    }
-}
-
 discountinp.addEventListener('keypress', (e) => {
 
     if (e.key === 'Enter') {
 
         const code = discountinp.value.toUpperCase()
         applydiscount(code)
+        discountinp.value = ''
     }
 })
+
+loadcart()
 fetchproducts()
