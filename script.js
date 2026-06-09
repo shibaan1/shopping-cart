@@ -122,6 +122,8 @@ const displaycartitems = () => {
     cart.forEach(item => {
 
         const li = document.createElement('li')
+        const cartitemleft = document.createElement('div')
+        const cartitemright = document.createElement('div')
         const titlespan = document.createElement('span')
         const pricespan = document.createElement('span')
         const quantityspan = document.createElement('span')
@@ -129,19 +131,28 @@ const displaycartitems = () => {
         const decbtn = document.createElement('button')
         const removebtn = document.createElement('button')
 
+        cartitemleft.className = 'cart-item-left'
+        cartitemright.className = 'cart-item-right'
+        removebtn.classList.add('rmvbtn')
+
         titlespan.textContent = item.title
-        pricespan.textContent = `$${item.price}`
-        quantityspan.textContent = item.quantity
+        pricespan.textContent = `price : $${item.price}`
+        quantityspan.textContent = `Qty: ${item.quantity}`
         incbtn.textContent = '+'
         decbtn.textContent = '-'
         removebtn.textContent = 'REMOVE'
 
-        li.appendChild(titlespan)
-        li.appendChild(pricespan)
-        li.appendChild(quantityspan)
-        li.appendChild(incbtn)
-        li.appendChild(decbtn)
-        li.appendChild(removebtn)
+        cartitemleft.appendChild(titlespan)
+        cartitemleft.appendChild(pricespan)
+        cartitemleft.appendChild(quantityspan)
+
+        cartitemright.appendChild(incbtn)
+        cartitemright.appendChild(decbtn)
+        cartitemright.appendChild(removebtn)
+
+        li.appendChild(cartitemleft)
+        li.appendChild(cartitemright)
+
         cartitemlist.appendChild(li)
 
         incbtn.addEventListener('click', () => {
@@ -284,7 +295,9 @@ const applydiscount = (code) => {
 
         const discountamount = totalprice * (discpercent / 100)
         const finalprice = totalprice - discountamount
-        total.textContent = `the total price of the cart is: $${totalprice.toFixed(2)} → Final: $${finalprice.toFixed(2)} (${code}: ${discount[code]}% off)`
+        total.textContent = `the total price of the cart is: $${totalprice.toFixed(2)} 
+        Final: $${finalprice.toFixed(2)}
+         (${code}: ${discount[code]}% off)`
         alert(`discount code applied! you saved $${discountamount.toFixed(2)}`)
 
     }

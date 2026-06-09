@@ -43,7 +43,7 @@ button {
 }
 
 input[type='text'] {
-    width: 200px;
+    width: 350px;
     padding: 5px 5px;
     border: 2px solid var(--border);
     background-color: #ffffff;
@@ -64,10 +64,12 @@ input[type='text']::placeholder {
 #cart-btn {
     background-color: var(--accent);
     color: #ffffff;
-    padding: 5px 5px;
+    padding: 10px 10px;
     border-radius: 8px;
     cursor: pointer;
     border: none;
+    font-size: 20px;
+    ;
 }
 
 #cart-btn:hover {
@@ -77,10 +79,14 @@ input[type='text']::placeholder {
 .cart-count {
     background-color: var(--accent);
     color: #ffffff;
-    padding: 5px 5px;
+    padding: 10px 10px;
     border-radius: 50%;
-    font-size: smaller;
+    font-size: larger;
     font-weight: bold;
+}
+
+.cart-count:hover {
+    background-color: #ff5252;
 }
 
 #filter {
@@ -95,6 +101,7 @@ input[type='text']::placeholder {
     color: var(--text-primary);
     border: 2px solid var(--border);
     padding: 5px 5px;
+    margin: 1px 1px;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.5s ease;
@@ -113,8 +120,8 @@ input[type='text']::placeholder {
 #products-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
     padding: 5px 5px;
+    gap: 12px;
 }
 
 .product-card {
@@ -124,14 +131,22 @@ input[type='text']::placeholder {
     padding: 10px 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    max-width: 475px;
+    min-height: 400px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 }
 
-.product-image {
+.product-card img {
     width: 100%;
-    height: 200px;
+    height: 550px;
     background-color: #e0e0e0;
     border-radius: 8px;
     margin-bottom: 5px;
+    margin-left: 2px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .product-name {
@@ -144,7 +159,6 @@ input[type='text']::placeholder {
     color: var(--accent);
     font-size: large;
     font-weight: 600;
-    margin: 10px 0;
 }
 
 .add-to-cart {
@@ -156,6 +170,7 @@ input[type='text']::placeholder {
     cursor: pointer;
     width: 100%;
     transition: all 0.5s ease;
+    margin-top: auto;
 }
 
 .add-to-cart:hover {
@@ -195,7 +210,7 @@ input[type='text']::placeholder {
 
 .modal-content {
     background-color: var(--bg-secondary);
-    padding: 10px 10px;
+    padding: 50px 10px;
     border-radius: 5px;
     width: 400px;
     max-height: 600px;
@@ -206,14 +221,24 @@ input[type='text']::placeholder {
 
 #close {
     position: absolute;
+    display: inline-block;
     top: 10px;
     right: 10px;
     background: transparent;
     border: none;
-    font-size: 20px;
+    font-size: 25px;
+    margin: 10px 10px;
+    padding: 2px 2px;
+    background-color: transparent;
     cursor: pointer;
-    color: var(--text-secondary);
+    color: black;
 
+}
+
+#close:hover {
+    background-color: red;
+    color: white;
+    cursor: pointer
 }
 
 #cart-item-list {
@@ -221,15 +246,42 @@ input[type='text']::placeholder {
     margin: 10px 0;
 }
 
-/* #cart-item-list li {
-    display: block;
-    list-style: none;
+#cart-item-list li {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 10px;
     padding: 10px;
-    margin: 5px 0;
-    border: 1px solid var(--border);
+    margin: 5px 5px;
     background-color: #f9f9f9;
+    border: 1px solid var(--border);
     border-radius: 5px;
-} */
+}
+
+#cart-item-list .rmvbtn {
+    padding: 2px 5px;
+    width: 75px;
+
+}
+
+.cart-item-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-item-right button {
+
+    width: 100%;
+    padding: 5px;
+
+}
+
+#cart-item-list button {
+    padding: 0px 8px;
+    margin: 8px 2px;
+    background-color: rgb(195, 191, 191);
+    color: black;
+    width: 35px;
+}
 
 #empty-cart-msg {
     display: none;
